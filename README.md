@@ -1,2 +1,2 @@
-# StockMarketHistoricalAnalysis
-CS 439 Project
+# Stock Market Historical Analysis
+The project, "Stock Performance Visualization of Fortune 25 Companies," involves analyzing historical stock prices of the top 25 companies by market capitalization from 1980 to the present. Using data from MacroTrends, this project aims to uncover trends across sectors and geographic locations, as well as assess the impact of major financial events like the 2008 financial crisis and the COVID-19 pandemic. Key features include an interactive dashboard with cumulative return charts, yearly price change charts, and event-driven performance analysis to provide insights valuable to investors and financial analysts. The project employs Plotly, Matplotlib, and Tkinter for visualizations.
