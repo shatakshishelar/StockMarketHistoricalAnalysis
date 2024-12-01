@@ -14,7 +14,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
 
 ## Visualizations
 
-### 1. **Cumulative Returns Visualization**
+### 1. **Cumulative Returns Visualization (Visual1.py)**
 - **Description**: This visualization shows cumulative stock gains over a selected timeframe. Users can filter by ticker, start year, and end year. Background highlights display major financial events, with tooltips providing details about the events and stock prices.
 - **Features**: 
   - Adjustable date ranges.
@@ -24,7 +24,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
 - **Preview**:
   ![Cumulative Returns](path/to/cumulative_returns_image.png)
 
-### 2. **Filtered Stock Line Graph**
+### 2. **Filtered Stock Line Graph (Visual2.py)**
 - **Description**: Displays stock price trends for all companies with filtering options for sector, state, and region (East Coast, West Coast, Midwest, South). The graph dynamically adjusts to the selected start and end years.
 - **Features**: 
   - Tooltips showing ticker, date, price, cumulative gain, lowest/highest points, and potential gains.
@@ -33,7 +33,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
 - **Preview**:
   ![Stock Line Graph](path/to/stock_line_graph_image.png)
 
-### 3. **Yearly Cumulative Gains Bar Chart**
+### 3. **Yearly Cumulative Gains Bar Chart (Visual3.py)**
 - **Description**: Presents yearly cumulative gains for selected companies. Users can filter by sector, state, region, and market capitalization range.
 - **Features**: 
   - Adjustable filters for minimum and maximum market caps.
@@ -42,7 +42,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
 - **Preview**:
   ![Yearly Gains Bar Chart](path/to/yearly_gains_chart_image.png)
 
-### 4. **Event Impact and Stock Comparison Table**
+### 4. **Event Impact and Stock Comparison Table (Visual4.py)**
 - **Description**: Combines stock performance during specific events with a comparative table. Users select stocks and events to generate a graph and a table summarizing the impact of events on stock prices.
 - **Features**:
   - Visualizes stock trends during events.
