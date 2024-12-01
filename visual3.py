@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QComboBox, QWidget, QVBo
 from PyQt6.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
+from matplotlib import colors as mcolors
 
 # Define a dictionary to store DataFrames for each stock
 stock_data = {}
@@ -35,13 +36,22 @@ def calculate_yearly_percentage_change(df):
 
 class YearlyChangePlotCanvas(FigureCanvas):
     def __init__(self, parent=None, width=15, height=10, dpi=100):
-        plt.style.use('seaborn')
         self.fig, self.ax = plt.subplots(figsize=(width, height), dpi=dpi)
         super().__init__(self.fig)
         self.setParent(parent)
         self.setMouseTracking(True)
         self.bars_data = {}
         self.current_annotation = None
+
+        # Define the ticker to company name mapping
+        self.ticker_company_map = {
+            "AAPL": "Apple", "ABBV": "AbbVie", "AVGO": "Broadcom", "BAC": "Bank of America",
+            "BRK.A": "Berkshire Hathaway A", "BRK.B": "Berkshire Hathaway B", "COST": "Costco",
+            "GOOGL": "Alphabet", "HD": "Home Depot", "JNJ": "Johnson & Johnson", "JPM": "JPMorgan Chase",
+            "LLY": "Eli Lilly", "MA": "MasterCard", "META": "Meta Platforms", "MSFT": "Microsoft",
+            "NFLX": "Netflix", "NVDA": "NVIDIA", "ORCL": "Oracle", "PG": "Procter & Gamble",
+            "TSLA": "Tesla", "UNH": "UnitedHealth", "V": "Visa", "WMT": "Walmart", "XOM": "ExxonMobil"
+        }
 
         # Create a frame for annotations that persists
         self.annotation_frame = dict(
@@ -109,8 +119,12 @@ class YearlyChangePlotCanvas(FigureCanvas):
                 # Get data for the found bar
                 ticker, year, yearly_change, cum_return = self.bars_data[found_bar]
 
-                # Create annotation text
+                # Get company name from the mapping
+                company_name = self.ticker_company_map.get(ticker, "Unknown Company")
+
+                # Create annotation text with company name
                 annotation_text = (
+                    f"Company: {company_name}\n"
                     f"Ticker: {ticker}\n"
                     f"Year: {year}\n"
                     f"Yearly Change: {yearly_change:.1f}%\n"
@@ -193,12 +207,23 @@ class YearlyChangePlotCanvas(FigureCanvas):
             bar_width = 0.8 / n_tickers
             offsets = [(i - n_tickers / 2) * bar_width for i in range(n_tickers)]
 
+            # Use a color cycle and hatch patterns
+            color_cycle = plt.cm.tab20.colors  # Choose a color map with many distinct colors
+            hatches = ['', '/', '\\', '|', '-', '+', 'x', 'o', 'O', '.', '*']  # List of hatch patterns
+            color_count = len(color_cycle)
+            hatch_count = len(hatches)
+
             # Plot each ticker's yearly changes
-            for offset, (ticker, data) in zip(offsets, yearly_changes):
+            for i, (offset, (ticker, data)) in enumerate(zip(offsets, yearly_changes)):
                 data = data.dropna()
                 x_positions = [years.index(year) + offset for year in data.index.year]
+
+                # Cycle through colors and patterns
+                color = color_cycle[i % color_count]
+                hatch = hatches[i % hatch_count] if i >= color_count else None
+
                 bars = self.ax.bar(x_positions, data['yearly_pct_change'].values,
-                                   width=bar_width, label=ticker)
+                                   width=bar_width, label=ticker, color=color, hatch=hatch)
 
                 # Store bar data for tooltips
                 for bar, year, yearly_change, cum_return in zip(bars, data.index.year,
