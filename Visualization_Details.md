@@ -47,7 +47,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
 - **Features**:
   - Visualizes stock trends during events.
   - Tabular data showing percentage changes in stock prices for each event.
-- **Demonstration**: Selecting Tesla Inc. and the COVID-19 pandemic shows the stock trend overlayed with the event period and a table summarizing price changes during that time.
+- **Demonstration**: Selecting Tesla Inc. and Apple Inc. and the COVID-19 pandemic and 2008 Financial Crisis shows the stock trend overlayed with the event period and a table summarizing price changes during that time.
 - **Preview**:
   ![Event Impact Table](path/to/event_impact_table_image.png)
 
@@ -70,7 +70,6 @@ This project analyzes and visualizes the stock performance of the top 25 compani
 ## Repository Structure
 - `/data`: Contains raw and processed data files.
 - `/images`: Includes visualization previews for the README.
-- `/scripts`: Python scripts for data processing and visualization.
 
 ---
 
@@ -95,5 +94,6 @@ This project analyzes and visualizes the stock performance of the top 25 compani
 
 ## Contact
 For questions or suggestions, feel free to reach out via [email](mailto:shatakshi1010@gmail.com) or open an issue in this repository.
-Alternative email: shatakshelar@gmail.com 
+Alternative email: shatakshelar@gmail.com
+[LinkedIn](https://www.linkedin.com/in/shatakshi-shelar-372b94203/))
 
