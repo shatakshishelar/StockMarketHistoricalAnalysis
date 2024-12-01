@@ -22,7 +22,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
   - Differentiated line colors for periods within and outside the selected timeframe.
 - **Demonstration**: For example, selecting Apple Inc., a start year of 2000, and an end year of 2020 highlights the cumulative returns and overlays major events like the 2008 financial crash.
 - **Preview**:
-  ![Cumulative Returns](path/to/cumulative_returns_image.png)
+  ![Cumulative Returns](images/CumulativeReturnsVisualization.png)
 
 ### 2. **Filtered Stock Line Graph (Visual2.py)**
 - **Description**: Displays stock price trends for all companies with filtering options for sector, state, and region (East Coast, West Coast, Midwest, South). The graph dynamically adjusts to the selected start and end years.
@@ -31,7 +31,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
   - Widgets for sector and location-based filtering.
 - **Demonstration**: Selecting the technology sector for 2010-2020 dynamically updates the graph, showing performance trends for tech companies.
 - **Preview**:
-  ![Stock Line Graph](path/to/stock_line_graph_image.png)
+  ![Stock Line Graph](images/FilteredStockLineGraph.png)
 
 ### 3. **Yearly Cumulative Gains Bar Chart (Visual3.py)**
 - **Description**: Presents yearly cumulative gains for selected companies. Users can filter by sector, state, region, and market capitalization range.
@@ -40,7 +40,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
   - Tooltips with yearly gain, cumulative return, and company details.
 - **Demonstration**: Filtering for companies headquartered in California with a market cap above $100 billion highlights their yearly gains.
 - **Preview**:
-  ![Yearly Gains Bar Chart](path/to/yearly_gains_chart_image.png)
+  ![Yearly Gains Bar Chart](images/YearlyCumulativeGainsBarChart.png)
 
 ### 4. **Event Impact and Stock Comparison Table (Visual4.py)**
 - **Description**: Combines stock performance during specific events with a comparative table. Users select stocks and events to generate a graph and a table summarizing the impact of events on stock prices.
@@ -49,7 +49,7 @@ This project analyzes and visualizes the stock performance of the top 25 compani
   - Tabular data showing percentage changes in stock prices for each event.
 - **Demonstration**: Selecting Tesla Inc. and Apple Inc. and the COVID-19 pandemic and 2008 Financial Crisis shows the stock trend overlayed with the event period and a table summarizing price changes during that time.
 - **Preview**:
-  ![Event Impact Table](path/to/event_impact_table_image.png)
+  ![Event Impact Table](images/EventImpactandStockComparisonTable.png)
 
 ---
 
