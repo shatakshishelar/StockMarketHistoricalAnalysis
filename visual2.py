@@ -8,6 +8,16 @@ import numpy as np
 import matplotlib.dates as mdates
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 
+# Define the ticker to company name mapping
+ticker_company_map = {
+    "AAPL": "Apple", "ABBV": "AbbVie", "AVGO": "Broadcom", "BAC": "Bank of America",
+    "BRK.A": "Berkshire Hathaway A", "BRK.B": "Berkshire Hathaway B", "COST": "Costco",
+    "GOOGL": "Alphabet", "HD": "Home Depot", "JNJ": "Johnson & Johnson", "JPM": "JPMorgan Chase",
+    "LLY": "Eli Lilly", "MA": "MasterCard", "META": "Meta Platforms", "MSFT": "Microsoft",
+    "NFLX": "Netflix", "NVDA": "NVIDIA", "ORCL": "Oracle", "PG": "Procter & Gamble",
+    "TSLA": "Tesla", "UNH": "UnitedHealth", "V": "Visa", "WMT": "Walmart", "XOM": "ExxonMobil"
+}
+
 # Define a dictionary to store DataFrames for each stock
 stock_data = {}
 
@@ -50,31 +60,15 @@ for ticker, file_path in zip(tickers, file_paths):
 
 class StockPlotCanvas(FigureCanvas):
     def __init__(self, parent=None, width=10, height=8, dpi=100):
-        # Create figure with more height to accommodate legend and labels
         fig = plt.figure(figsize=(width, height), dpi=dpi)
-        # Add subplot with adjusted position to leave room for labels
         self.ax = fig.add_subplot(111)
-        # Adjust the subplot parameters
         fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.15)
-
         super().__init__(fig)
         self.setParent(parent)
         self.price_cursors = None
         self.line_data = {}
 
-        # Connect the mouse leave event
-        self.mpl_connect('figure_leave_event', self.on_figure_leave)
-
-    def on_figure_leave(self, event):
-        """Handle mouse leaving the figure."""
-        if self.price_cursors and hasattr(self.price_cursors, 'selections'):
-            # Remove any existing cursor annotations
-            for selector in self.price_cursors.selections:
-                selector.annotation.set_visible(False)
-            self.draw_idle()
-
     def plot_stocks(self, tickers, start_year=None, end_year=None):
-        """Plot multiple stocks with different colors based on tickers."""
         self.ax.clear()
         self.line_data.clear()
 
@@ -99,10 +93,23 @@ class StockPlotCanvas(FigureCanvas):
                     final_price = selected_data['close'].iloc[-1]
                     cumulative_return = (final_price - initial_price) / initial_price * 100
 
+                    # Calculate highest and lowest price info
+                    min_price = selected_data['close'].min()
+                    max_price = selected_data['close'].max()
+                    min_date = selected_data[selected_data['close'] == min_price]['date'].iloc[0]
+                    max_date = selected_data[selected_data['close'] == max_price]['date'].iloc[0]
+                    potential_gain = (max_price - min_price) / min_price * 100
+
                     self.line_data[line] = {
                         'ticker': ticker,
+                        'company_name': ticker_company_map.get(ticker, ticker),  # Get company name or use ticker if not found
                         'data': selected_data,
-                        'cumulative_return': cumulative_return
+                        'cumulative_return': cumulative_return,
+                        'min_price': min_price,
+                        'max_price': max_price,
+                        'min_date': min_date,
+                        'max_date': max_date,
+                        'potential_gain': potential_gain
                     }
 
                     lines.append(line)
@@ -123,29 +130,25 @@ class StockPlotCanvas(FigureCanvas):
                     date = mdates.num2date(sel.target[0])
                     price = sel.target[1]
                     sel.annotation.set_text(
-                        f'{data["ticker"]}\nDate: {date.strftime("%Y-%m-%d")}\n'
+                        f'{data["ticker"]} - {data["company_name"]}\n'  # Added company name here
+                        f'Date: {date.strftime("%Y-%m-%d")}\n'
                         f'Price: ${price:.2f}\n'
-                        f'Cumulative Return: {data["cumulative_return"]:.2f}%'
+                        f'Cumulative Return: {data["cumulative_return"]:.2f}%\n'
+                        f'Lowest Price: ${data["min_price"]:.2f} on {data["min_date"].strftime("%Y-%m-%d")}\n'
+                        f'Highest Price: ${data["max_price"]:.2f} on {data["max_date"].strftime("%Y-%m-%d")}\n'
+                        f'Potential Gain: {data["potential_gain"]:.2f}% if bought low & sold high'
                     )
-
-            @self.price_cursors.connect("remove")
-            def on_remove(sel):
-                sel.annotation.set_visible(False)
-                self.draw_idle()
 
             self.ax.set_xlabel("Date")
             self.ax.set_ylabel("Closing Price")
             self.ax.set_title("Closing Prices for Selected Stocks")
-
-            # Adjust legend position and size
             self.ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-
         else:
             self.ax.set_title("No data available for selected criteria")
 
         self.draw()
 
-
+# Rest of the code remains the same...
 class StockViewerApp(QMainWindow):
     def __init__(self):
         super().__init__()
